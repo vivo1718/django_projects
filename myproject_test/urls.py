@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import path, include  # Make sure 'include' is added here
-
+from recipe_engine import views as recipe_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('polls.urls')),
+    path('recipe-search/', recipe_views.recipe_search_view, name='recipe_search'),
+    path('recipe/<int:recipe_id>/', recipe_views.recipe_detail_view, name='recipe_detail'),
+
 ]

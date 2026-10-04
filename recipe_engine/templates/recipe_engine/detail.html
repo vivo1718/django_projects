@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe.title }} - Culinary Art Mode</title>
+    <!-- Modern Tailwind CSS v4 Engine -->
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen pb-24 overflow-x-hidden relative">
+
+    <!-- DECORATIVE LAYERED BACKGROUND ELEMENTS (Z-INDEX 0) -->
+    <div class="absolute top-[-10%] left-[-10%] w-72 h-72 sm:w-96 sm:h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none z-0"></div>
+    <div class="absolute top-[20%] right-[-5%] w-64 h-64 sm:w-80 sm:h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none z-0"></div>
+    <div class="absolute bottom-[10%] left-[5%] w-80 h-80 bg-emerald-600/5 rounded-full blur-3xl pointer-events-none z-0"></div>
+
+    <!-- MAIN CORE FRAME CONTRAST CONTAINER (Z-INDEX 10) -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 relative z-10">
+        
+        <!-- Back Button -->
+        <a href="javascript:history.back()" class="inline-flex items-center text-sm font-semibold text-emerald-400 hover:text-emerald-300 mb-8 transition-colors group">
+            <span class="transform transition-transform group-hover:-translate-x-1 mr-1.5">←</span> Back to Kitchen Dashboard
+        </a>
+
+        <!-- HERO SECTION: THREE-DIMENSIONAL CIRCULAR DISPLAY BLOCK -->
+        <div class="relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 rounded-3xl p-6 sm:p-10 mb-12 flex flex-col md:flex-row items-center gap-8 lg:gap-12 shadow-2xl">
+            
+            <!-- Floating Decorative Bubble behind the circular image (z-index 10) -->
+            <div class="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 opacity-20 blur-xs animate-pulse z-10"></div>
+            
+            <!-- Circular Hero Image Shell Frame (z-index 20) -->
+            <div class="relative shrink-0 w-56 h-56 sm:w-72 sm:h-72 rounded-full p-2 bg-gradient-to-tr from-emerald-500 via-teal-500 to-transparent shadow-xl z-20 group">
+                <div class="w-full h-full rounded-full overflow-hidden bg-slate-900 relative">
+                    {% if recipe.image_url %}
+                        <img src="{% static recipe.image_url %}" alt="{{ recipe.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center text-slate-600 text-6xl">🍳</div>
+                    {% endif %}
+                </div>
+                <!-- Intersecting glass bubble element offset -->
+                <div class="absolute -bottom-2 -right-2 w-16 h-16 rounded-full bg-white/10 backdrop-blur-xs border border-white/20 shadow-lg pointer-events-none z-30"></div>
+            </div>
+
+            <!-- Hero Metadata Typography Details -->
+            <div class="flex-1 text-center md:text-left relative z-20">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-widest mb-4">
+                    ✨ Fine Dining Preparation Mode
+                </span>
+                <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-none mb-4 drop-shadow-md">
+                    {{ recipe.title }}
+                </h1>
+                <p class="text-slate-400 max-w-xl text-sm sm:text-base leading-relaxed">
+                    Review your kitchen storage parameters below to properly extract, portion, and complete your step-by-step culinary preparation.
+                </p>
+            </div>
+        </div>
+
+        <!-- SPLIT LAYOUT COLUMNS GRID (Z-INDEX 20) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start relative z-20">
+            
+            <!-- LEFT COLUMN: PREMIUM FLOATING INGREDIENTS HUB -->
+            <div class="lg:col-span-1">
+                <div class="bg-slate-800/40 backdrop-blur-md p-6 rounded-2xl border border-slate-700/50 shadow-xl relative overflow-hidden">
+                    <!-- Subtle background circle inside card -->
+                    <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-teal-500/5 rounded-full pointer-events-none"></div>
+                    
+                    <h3 class="text-lg font-extrabold text-white tracking-wide border-b border-slate-700/60 pb-3 mb-5 flex items-center justify-between">
+                        <span>🛒 Pantry Inventory</span>
+                        <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-md font-bold">
+                            {{ recipe.ingredients.all|length }} Items
+                        </span>
+                    </h3>
+                    
+                    <ul class="space-y-3">
+                        {% for ing in recipe.ingredients.all %}
+                            <li onclick="toggleIngredient(this)" class="flex items-center p-3 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-emerald-500/40 transition-all cursor-pointer select-none group">
+                                <div class="check-node w-5 h-5 rounded-full border-2 border-slate-600 flex items-center justify-center bg-slate-900 mr-4 transition-all group-hover:border-emerald-400 shrink-0 shadow-inner">
+                                    <span class="text-[9px] font-black text-slate-900 hidden">✓</span>
+                                </div>
+                                <span class="capitalize text-slate-300 font-semibold text-sm tracking-wide transition-colors group-hover:text-white">
+                                    {{ ing.name }}
+                                </span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: CHRONOLOGICAL METHOD DIRECTIONS CARDS -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-slate-800/40 backdrop-blur-md p-6 sm:p-8 rounded-2xl border border-slate-700/50 shadow-xl">
+                    <h3 class="text-xl font-extrabold text-white tracking-wide border-b border-slate-700/60 pb-4 mb-8">
+                        🎬 Step-by-Step Execution Guide
+                    </h3>
+
+                    <!-- Segmented Roadmap Pipeline Stack Layout -->
+                    <div class="space-y-6 relative">
+                        {% for step in steps %}
+                            <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 relative group">
+                                
+                                <!-- Floating Absolute Background Bubble behind index track numbers -->
+                                <div class="shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-slate-700 flex items-center justify-center font-black text-lg text-emerald-400 shadow-md transition-all duration-300 group-hover:from-emerald-500 group-hover:to-teal-500 group-hover:text-slate-900 group-hover:scale-105 z-10">
+                                    {{ forloop.counter }}
+                                </div>
+                                
+                                <!-- Deep Layered Text Box Component -->
+                                <div class="flex-1 bg-slate-900/50 border border-slate-800 p-5 rounded-2xl transition-all duration-300 group-hover:border-slate-700/80 group-hover:bg-slate-900/80 shadow-inner z-0">
+                                    <span class="block text-[11px] font-black text-emerald-500 uppercase tracking-widest mb-1.5">
+                                        Milestone Execution Phase {{ forloop.counter }}
+                                    </span>
+                                    <p class="text-slate-300 font-medium text-base leading-relaxed tracking-wide">
+                                        {{ step }}
+                                    </p>
+                                </div>
+
+                            </div>
+                        {% empty %}
+                            <p class="text-slate-500 text-center py-6">No specific cooking logs extracted for this plate profile.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Micro Functional Controls Script -->
+    <script>
+        function toggleIngredient(element) {
+            const node = element.querySelector('.check-node');
+            const icon = node.querySelector('span');
+            const text = element.querySelector('span:not(.hidden)');
+
+            if (node.classList.contains('bg-emerald-400')) {
+                // Restore defaults
+                node.classList.remove('bg-emerald-400', 'border-emerald-400');
+                node.classList.add('bg-slate-900', 'border-slate-600');
+                icon.classList.add('hidden');
+                text.classList.remove('line-through', 'text-slate-500', 'opacity-50');
+                text.classList.add('text-slate-300');
+                element.classList.remove('bg-emerald-950/10', 'border-emerald-900/30');
+            } else {
+                // Lock completed item highlights
+                node.classList.remove('bg-slate-900', 'border-slate-600');
+                node.classList.add('bg-emerald-400', 'border-emerald-400');
+                icon.classList.remove('hidden');
+                text.classList.add('line-through', 'text-slate-500', 'opacity-50');
+                text.classList.remove('text-slate-300');
+                element.classList.add('bg-emerald-950/10', 'border-emerald-900/30');
+            }
+        }
+    </script>
+</body>
+</html>
