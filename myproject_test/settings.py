@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls',
-    'recipe_engine'
+    'recipe_engine',
+    'vibe_music'
 ]
 
 MIDDLEWARE = [

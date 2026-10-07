@@ -18,11 +18,12 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path, include  # Make sure 'include' is added here
 from recipe_engine import views as recipe_views
-
+from vibe_music import views as vibe_views 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('polls.urls')),
     path('recipe-search/', recipe_views.recipe_search_view, name='recipe_search'),
     path('recipe/<int:recipe_id>/', recipe_views.recipe_detail_view, name='recipe_detail'),
+    path('vibe-music/', vibe_views.capsule_dashboard_view, name='vibe_dashboard'), # 👈 Add music path
 
 ]

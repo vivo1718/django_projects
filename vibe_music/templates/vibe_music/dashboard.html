@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sonic Capsule Dashboard</title>
+    <!-- Modern Tailwind CSS v4 Engine -->
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen py-12 px-4 sm:px-6 relative overflow-x-hidden">
+
+    <!-- THEMATIC NEON AMBIENT BACKDROP SPHERES -->
+    <div class="absolute top-[-10%] right-[-10%] w-96 h-96 bg-fuchsia-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-[20%] left-[-10%] w-96 h-96 bg-violet-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto relative z-10">
+        
+        <!-- Header Brand Title Block -->
+        <div class="text-center mb-12">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/20 uppercase tracking-widest mb-3 animate-pulse">
+                🔮 AI Generative Curator
+            </span>
+            <h1 class="text-4xl font-black tracking-tight text-white sm:text-5xl mb-2 bg-gradient-to-r from-fuchsia-400 via-violet-400 to-indigo-400 bg-clip-text text-transparent">
+                Sonic Capsule
+            </h1>
+            <p class="text-slate-400 text-base max-w-md mx-auto">Input your current mood frequency, and AI will extract the perfect music album ecosystem.</p>
+        </div>
+
+        <!-- Interactive Search Engine Input Box Panel -->
+        <div class="bg-slate-900/60 backdrop-blur-md p-6 rounded-2xl border border-slate-800 shadow-2xl mb-12">
+            <form id="sonicForm" method="GET" action="{% url 'vibe_dashboard' %}" class="flex flex-col sm:flex-row gap-3">
+                <input type="text" name="mood" value="{{ mood }}" placeholder="e.g., cyberpunk night drive, dusty raining jazz, neon workout" required
+                       class="flex-1 px-4 py-3.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 text-white placeholder-slate-600 shadow-inner">
+                <button type="submit" class="bg-gradient-to-r from-fuchsia-600 to-violet-600 hover:from-fuchsia-700 hover:to-violet-700 text-white font-extrabold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-fuchsia-500/10 whitespace-nowrap">
+                    Synthesize Capsule
+                </button>
+            </form>
+        </div>
+
+        <!-- Animated Synthesis Circle Loader -->
+        <div id="sonicLoader" class="hidden flex-col items-center justify-center py-12 mb-8">
+            <div class="w-14 h-14 rounded-full border-4 border-fuchsia-500/10 border-t-fuchsia-500 animate-spin"></div>
+            <p class="mt-4 text-fuchsia-400 font-bold text-sm tracking-wide animate-pulse">Analyzing mental frequencies...</p>
+        </div>
+
+        <!-- CORE OUTPUT: EXTRACTED CAPSULE DISPLAY PANEL -->
+        <div id="outputCanvas">
+            {% if discovery %}
+                <h3 class="text-lg font-bold text-slate-400 uppercase tracking-widest mb-4">🎵 Extracted Sonic Capsule</h3>
+                <div class="bg-gradient-to-br from-slate-900 via-slate-900/80 to-purple-950/20 p-6 sm:p-8 rounded-2xl border border-fuchsia-500/30 shadow-2xl relative overflow-hidden mb-12 group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/5 rounded-full blur-xl pointer-events-none"></div>
+                    
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                        <div class="space-y-2">
+                            <span class="text-xs font-black text-fuchsia-400 uppercase tracking-widest">Matched for: "{{ discovery.mood_query }}"</span>
+                            <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight tracking-tight">{{ discovery.album_title }}</h2>
+                            <p class="text-slate-300 font-bold text-base">By <span class="text-violet-400">{{ discovery.artist_name }}</span> {% if discovery.release_year %}({{ discovery.release_year }}){% endif %}</p>
+                            <p class="text-slate-400 text-sm leading-relaxed max-w-2xl pt-2 italic">" {{ discovery.ai_review }} "</p>
+                        </div>
+                        
+                        <!-- Premium Direct Anchor Action targeting the YouTube Search Matrix Layer -->
+                        <a href="https://youtube.com{{ discovery.youtube_search_term|urlencode }}" target="_blank"
+                           class="shrink-0 inline-flex items-center justify-center px-6 py-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-sm tracking-wide transition-all shadow-lg shadow-rose-900/30 hover:scale-[1.02]">
+                            ▶ Play on YouTube
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- RECENT CAPSULE DISCOVERIES LOG HISTORY ARCHIVE GRID -->
+            {% if recent %}
+                <h3 class="text-lg font-bold text-slate-400 uppercase tracking-widest mb-4">⏳ Capsule Discovery Logs</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for log in recent %}
+                        <div class="bg-slate-900/40 border border-slate-800 p-5 rounded-xl hover:border-slate-700 transition-all flex flex-col justify-between">
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between items-start gap-4">
+                                    <h4 class="font-extrabold text-white text-base line-clamp-1 truncate flex-1">{{ log.album_title }}</h4>
+                                    <span class="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400 capitalize max-w-[100px] truncate">
+                                        {{ log.mood_query }}
+                                    </span>
+                                </div>
+                                <p class="text-slate-400 text-xs font-bold">By {{ log.artist_name }}</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between">
+                                <span class="text-[10px] text-slate-500 font-medium">{{ log.discovered_at|date:"M d, H:i" }}</span>
+                                <a href="https://youtube.com{{ log.youtube_search_term|urlencode }}" target="_blank"
+                                   class="text-xs font-extrabold text-fuchsia-400 hover:text-fuchsia-300 transition-colors">
+                                    Launch Stream →
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <!-- Interface Script Controller Toggles -->
+    <script>
+        document.getElementById('searchForm' || 'sonicForm').addEventListener('submit', function() {
+            const canvas = document.getElementById('outputCanvas');
+            if (canvas) canvas.style.opacity = '0.2';
+            document.getElementById('sonicLoader').classList.remove('hidden');
+            document.getElementById('sonicLoader').classList.add('flex');
+        });
+    </script>
+</body>
+</html>
